@@ -1,0 +1,28 @@
+summary statistics of TV
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.70   74.38  149.80  147.00  218.80  296.40 
+
+summary statistics of Radio
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  0.000   9.975  22.900  23.260  36.520  49.600 
+
+summary statistics of Newspaper
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   0.30   12.75   25.75   30.55   45.10  114.00 
+
+summary statistics of Sales
+
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.60   10.38   12.90   14.02   17.40   27.00 
+
+
+Correlation matrix for TV, radio, newspaper, and sales for the Advertising data.
+
+          TV              radio         newspaper             sales
+TV         1 0.0548086644658301 0.056647874965057 0.782224424861606
+radio                         1 0.354103750761175 0.576222574571055
+newspaper                                       1 0.228299026376165
+sales                                                             1
