@@ -3,10 +3,10 @@ IN = input.md
 OUT = report
 
 # phony targets
-.PHONY: all data clean
+.PHONY: data tests eda regression report clean all
 
 # all
-all: report/report.pdf data/eda-output.txt data/regression.Rdata
+all: eda regression report
 
 #download the Advertising.csv
 data: 
@@ -25,7 +25,12 @@ data/regression.Rdata: code/regression-script.R data/Advertising.csv
 data/eda-output.txt: code/eda-script.R data/Advertising.csv
 	cd code; Rscript eda-script.R
 
-#clean outputs	
+#generate report.pdf
+report:
+	cd report; Rscript -e '.libPaths(c("C:/Users/vlfgn/Documents/R/win-library/3.3", "C:/Users/vlfgn/Documents/R/win-library/3.3")); library(rmarkdown); render("report.Rmd")'
+	mv report.pdf report
+	
+#clean output file
 clean:
 	rm -f report/report.pdf 
 
