@@ -6,7 +6,7 @@ residual_sum_squares = function(x) {
 
 #This function calculates TSS. Input is lm object. Output is TSS(numeric).
 total_sum_squares = function(x) {
-  return(sum((x$model$sales-mean(x$model$sales))^2))  
+  return(sum((unlist(x$model[1])-mean(unlist(x$model[1])))^2))  
 }
 
 #This function calculates R-squared. Input is lm object. Output is R-squared(numeric).
