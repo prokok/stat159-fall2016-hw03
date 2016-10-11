@@ -6,7 +6,7 @@ sales = dat$Sales
 
 reg = lm(sales~tv+radio+news)
 sum_reg = summary(reg)
-save(reg, file = "../../data/regression.RData")
+save(reg, sum_reg, file = "../../data/regression.RData")
 
 png("../../images/scatterplot-tv-sales.png", width=800, height=600)
 plot(tv, sales, pch = 19, col = "#8e8f94", xlab = "TV advertising budget", ylab = "Sales")
