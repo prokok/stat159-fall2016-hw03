@@ -1,0 +1,102 @@
+---
+title: 'Multiple Linear Regression Analysis'
+author: "PHILHOON OH"
+date: "October 11, 2016"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+.libPaths(c("C:/Users/vlfgn/Documents/R/win-library/3.3", "C:/Users/vlfgn/Documents/R/win-library/3.3"))
+library(xtable)
+library(rmarkdown)
+```
+
+
+#Abstract
+  
+In this report, I will reproduce the main results displayed in section 3.1 *Simple Linear Regression* (chapter3) of the book __An introduction to Statistical Learning.__ descirbed below : 
+
+- Table 3.3 (page 72): Coefficient estimates of simple regression models: Sales on TV, Sales on Radio, and Sales on Newspaper. The book only shows two tables (those of Radio and Newspaper) but you should also include the table for TV.
+- Table 3.4 (page 74): Coefficient estimates of the least squares model.
+- Table 3.5 (page 75): Correlation matrix.
+- Table 3.6 (page 76): $RSE$, $R^2$ and $F$-statistic of the least squares model.
+
+In addition to reproducing results, the report includes some functions calculating summary statistics as well as their unit tests.
+
+
+#Introduction 
+
+The goal of this homework is to reproduce the results of Explanatory Data Analysis of Sales onto  TV, Radio, Newspaper advertising budget. In order to see assoication among those variables, by applying multiple regression analysis We will answer questions described below :
+
+1. Is at least one of the predictors useful in predicting the response?
+2. o all predictors help to explain the response, or is only a subset of the predictors useful?
+3. How well does the model fit the data?
+4. How accurate is the prediction?
+
+
+#Data
+
+Data set consists of the Sales(in thousand of units) of a certain products in 200 different markets, and the advertising budgets of 3 differnet media: TV, Radio, and Newspaper (4 variabales and 200 observations.) It could be redownloaded; however, the data set must stays in the data directory. 
+
+
+#Methodology
+
+I will apply a simple linear regression model to see the linear relationship between TV advertising budgets and the Sales:
+
+$$\\Sales = \beta_{0} + \beta_{1}TV$$ 
+
+To estimate the coefficients $\beta_{0}$ and $\beta_{1}$ we fit a regression model via the least squares criterion (Best Linear Prediction method).
+
+
+
+#Results
+
+The regression coefficients are discribed below in a table:
+
+```{r echo = FALSE, results='asis'}
+load("../data/regression.Rdata")
+sum_table = xtable(sum_reg$coefficient,  digits = 4, caption="Information about Regression Coefficients")
+print(sum_table, comment=FALSE, type = "latex")
+```
+
+
+
+- Under the null hyopthesis, p-value of intercept is significant to reject the null. The estimate of the intercept is `r sum_reg$coefficients[1,1]` with sd of `r sum_reg$coefficients[1,2]`
+- Under the null hyopthesis, p-value of slope is significant to reject the null. The estimate of the slope is `r sum_reg$coefficients[1,2]` with sd of `r sum_reg$coefficients[2,2]`
+
+
+Quality indices RSE, R square, and F-statistic are given in the table below:  
+
+
+```{r echo = FALSE, results='asis'}
+ind = data.frame(Quantity=c("R2","RSE","F-stat"), Value = c(sum_reg$r.squared,sum_reg$sigma,sum_reg$fstatistic[1]))
+indice_table = xtable(ind, digits = 4, caption = "Regression Quality Indices")
+print(indice_table, comment=FALSE, type="latex")
+```
+
+- R sqaure is the percent of variation that can be explained by the regression equation. It means that about `r sum_reg$r.squared*100` precent of variations in sales can be explained by the regression equation.
+- Residual Standard Error refers the estimated standard error of residuals. It measures the distance between the data point and the regression equation. Here, RSE is `r sum_reg$sigma` on 198 degrees of freedom.
+- In simple linear regression, null hypothesis of F-test is 'slope equals to zero.' Here, F-statistics is `r sum_reg$fstatistic[1]` which is significant to reject the null.
+
+
+
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Scatterplot with fitted regression line}
+    \centering
+      \includegraphics[width=4in]{../images/scatterplot-tv-sales.png}
+  \end{center}
+\end{figure}
+
+
+
+#Conclusions
+
+- According to the Table 2, F-statistics indicates to reject the null hypothesis, $H_0 : \beta_{1} = 0$. Therefore, there is a linear relationship between `TV advertising budgets` and `Sales.` 
+- It is the same result when we test with the correlation coefficient presented in Table1. 
+- In the plot, it seems that there are slightly more variations at both ends. However, the data shows pretty good linear relationship between TV advertising and the Sales. 
+- 1000 standard unit increase in TV advertising, increases 47 standard units in sales
+- Thus, it is safe to conclude that there is a linear relationship between them. 
+
