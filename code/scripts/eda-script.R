@@ -56,7 +56,7 @@ hist(dat$Sales, ylim = c(0,50), col = "#5679DF"
 dev.off()
 
 
-png("../../images/histogram-sales.png", width=800, height=600)
+png("../../images/scatterplot-matrix.png", width=800, height=600)
 pairs(~TV+Radio+Newspaper+Sales,data=dat, main="Scatterplot matrix among TV, Radio, Newpaper, Sales")
 dev.off()
 
