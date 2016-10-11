@@ -30,6 +30,13 @@ report:
 	cd report; Rscript -e '.libPaths(c("C:/Users/vlfgn/Documents/R/win-library/3.3", "C:/Users/vlfgn/Documents/R/win-library/3.3")); library(rmarkdown); render("report.Rmd")'
 	mv report.pdf report
 	
+#unit test on test-regression.R
+test:
+	1) cd code && Rscript -e '.libPaths(c("C:/Users/vlfgn/Documents/R/win-library/3.3", "C:/Users/vlfgn/Documents/R/win-library/3.3")); library(testthat); test_dir("tests")'
+	
+	2) cd code $$ Rscript test-that.R
+	
+	
 #clean output file
 clean:
 	rm -f report/report.pdf 
