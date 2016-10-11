@@ -30,40 +30,109 @@ In addition to reproducing results, the report includes some functions calculati
 The goal of this homework is to reproduce the results of Explanatory Data Analysis of Sales onto  TV, Radio, Newspaper advertising budget. In order to see assoication among those variables, by applying multiple regression analysis We will answer questions described below :
 
 1. Is at least one of the predictors useful in predicting the response?
-2. o all predictors help to explain the response, or is only a subset of the predictors useful?
+2. Do all predictors help to explain the response, or is only a subset of the predictors useful?
 3. How well does the model fit the data?
 4. How accurate is the prediction?
 
 
 #Data
 
-Data set consists of the Sales(in thousand of units) of a certain products in 200 different markets, and the advertising budgets of 3 differnet media: TV, Radio, and Newspaper (4 variabales and 200 observations.) It could be redownloaded; however, the data set must stays in the data directory. 
+Data set consists of the Sales(in thousand of units) of a certain products in 200 different markets, and the advertising budgets of 3 differnet media: TV, Radio, and Newspaper (4 variabales and 200 observations.) It could be redownloaded; however, the data set must stays in the data directory. Other data set in data directory are produced by runing eda-script.R, regression-script.R.
 
 
 #Methodology
 
-I will apply a simple linear regression model to see the linear relationship between TV advertising budgets and the Sales:
+First, a simple linear regression model will be applied to see the linear relationship between sales and each of TV, Radio, Newspaper:
 
 $$\\Sales = \beta_{0} + \beta_{1}TV$$ 
+$$\\Sales = \beta_{0} + \beta_{1}RADIO$$ 
+$$\\Sales = \beta_{0} + \beta_{1}NEWSPAPER$$ 
 
-To estimate the coefficients $\beta_{0}$ and $\beta_{1}$ we fit a regression model via the least squares criterion (Best Linear Prediction method).
+To estimate each of the coefficients $\beta_{0}$ and $\beta_{1}$, we fit a regression model via the least squares criterion (Best Linear Prediction method).
 
+
+Second, a multiple linear regression model will be applied to see the linear relationship among sales, TV, Radio, Newspaper at once:
+
+$$\\Sales = \beta_{0} + \beta_{1}TV + \beta_{2}Radio + \beta_{3}Newspaper$$ 
+
+To estimate the coefficients $\beta_{0}$, $\beta_{1}$, $\beta_{2}$, $\beta_{3}$ we fit a multiple regression model via the least squares criterion (Best Linear Prediction method).
+
+Lastly, by comparing these two methods and anaylzing its statistics, we are going to conclude which method is more appropriate to analyze the data set.  
 
 
 #Results
 
-The regression coefficients are discribed below in a table:
+The simple regression coefficients are discribed below in a Table 1-3:
 
 ```{r echo = FALSE, results='asis'}
 load("../data/regression.Rdata")
-sum_table = xtable(sum_reg$coefficient,  digits = 4, caption="Information about Regression Coefficients")
+sales = reg$model$sales
+tv = reg$model$tv
+radio = reg$model$radio
+news =reg$model$news
+
+sales_tv = lm(sales~tv)
+sales_radio = lm(sales~radio)
+sales_news = lm(sales~news)
+
+
+sum_table = xtable(summary(sales_tv)$coefficient,  digits = 4, caption="Simple regression of sales on tv")
 print(sum_table, comment=FALSE, type = "latex")
+
+sum_table = xtable(summary(sales_radio)$coefficient,  digits = 4, caption="Simple regression of sales on radio")
+print(sum_table, comment=FALSE, type = "latex")
+
+sum_table = xtable(summary(sales_news)$coefficient,  digits = 4, caption="Simple regression of sales on newspaper")
+print(sum_table, comment=FALSE, type = "latex")
+
+
 ```
 
 
 
-- Under the null hyopthesis, p-value of intercept is significant to reject the null. The estimate of the intercept is `r sum_reg$coefficients[1,1]` with sd of `r sum_reg$coefficients[1,2]`
-- Under the null hyopthesis, p-value of slope is significant to reject the null. The estimate of the slope is `r sum_reg$coefficients[1,2]` with sd of `r sum_reg$coefficients[2,2]`
+- In the Table 1, sales on tv, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_tv)$coefficient[1,1]` with sd of `r summary(sales_tv)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_tv)$coefficient[1,2]` with sd of `r summary(sales_tv)$coefficient[2,2]`
+
+
+- In the Table 2, sales on radio, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_radio)$coefficient[1,1]` with sd of `r summary(sales_radio)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_radio)$coefficient[1,2]` with sd of `r summary(sales_radio)$coefficient[2,2]`
+
+
+- In the Table 3, sales on radio, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_news)$coefficient[1,1]` with sd of `r summary(sales_news)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_news)$coefficient[1,2]` with sd of `r summary(sales_news)$coefficient[2,2]`
+
+
+
+The multiple regression coefficients are discribed below in a Table 4:
+
+```{r echo = FALSE, results='asis'}
+load("../data/regression.Rdata")
+sum_reg$coefficients
+
+sum_table = xtable(sum_reg$coefficients,  digits = 4, caption="Least squares coefficient estimates of the multiple linear regression of number of units sold on radio, TV, and newspaper advertising budgets.")
+print(sum_table, comment=FALSE, type = "latex")
+
+```
+
+
+Table 4 displays the multiple regression coefficient estimates. The interpretation is as follow: spending an additional $1,000 on tv advertising for a given amount of budgets of radio and newspaper, will lead to an increase in sales by approximately 45 units. 
+
+Now, compare this coefficient to those displayd in Table 1-3. The estimates of TV and Radio of multiple regression are similar to those of the simple regression; 
+
+Comparing these coefficient estimates to those displayed in Tables 3.1
+and 3.3, we notice that the multiple regression coefficient estimates for
+TV and radio are pretty similar to the simple linear regression coefficient
+estimates. However, while the newspaper regression coefficient estimate in
+Table 3.3 was significantly non-zero, the coefficient estimate for newspaper
+in the multiple regression model is close to zero, and the corresponding
+p-value is no longer significant, with a value around 0.86. This illustrates
+that the simple and multiple regression coefficients can be quite different.
+This difference stems from the fact that in the simple regression case, the
+slope term represents the average effect of a $1,000 increase in newspaper
+advertising, ignoring other predictors such as TV and radio. In contrast, in
+the multiple regression setting, the coefficient for newspaper represents the
+average effect of increasing newspaper spending by $1,000 while holding TV
+and radio fixed.
+TABLE 3.4. For the Advertising data, least squares coefficient estimates of the
+multiple linear regression of number of units sold on radio, TV, and newspaper
+advertising budgets.
 
 
 Quality indices RSE, R square, and F-statistic are given in the table below:  
