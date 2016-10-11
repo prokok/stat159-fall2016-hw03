@@ -9,9 +9,8 @@ corr_matrix = cor(corr_frame)
 
 save(corr_matrix, file = "../../data/correlation-matrix.RData")
 
-upper_corr_matrix = corr_matrix
-upper_corr_matrix[lower.tri(corr_matrix, diag=FALSE)] = ""
-upper_corr_matrix<-as.data.frame(upper_corr_matrix, digits =4)
+upper_corr_matrix = format(corr_matrix, digits = 4)
+upper_corr_matrix[lower.tri(upper_corr_matrix, diag=FALSE)] = ""
 
 sink(file = "../../data/eda-output.txt")
 cat("summary statistics of TV\n\n")
@@ -28,7 +27,7 @@ sum_sale
 cat("\n")
 cat("\n")
 cat("Correlation matrix for TV, radio, newspaper, and sales for the Advertising data.\n\n")
-print(upper_corr_matrix, digits = 4)
+print(as.data.frame(upper_corr_matrix))
 sink()
 
 
