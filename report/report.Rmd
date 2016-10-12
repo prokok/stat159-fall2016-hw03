@@ -97,6 +97,19 @@ print(sum_table, comment=FALSE, type = "latex")
 
 - In the Table 3, sales on newspaper, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_news)$coefficient[1,1]` with sd of `r summary(sales_news)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_news)$coefficient[2,1]` with sd of `r summary(sales_news)$coefficient[2,2]`
 
+
+```{r fig.width = 5, fig.height=3, echo=FALSE, fig.align='center', fig.cap = "Scatterplot with fitted regression line"}
+
+library(png)
+library(grid)
+img = readPNG("../images/scatterplot-tv-sales.png")
+grid.raster(img)
+```
+
+
+
+
+
 \begin{figure}[!h]
   \begin{center}
     \caption{Simple linear regression sales onto tv}
