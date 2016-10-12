@@ -17,12 +17,11 @@ library(rmarkdown)
   
 In this report, I will reproduce the main results displayed in section 3.1 *Simple Linear Regression* (chapter3) of the book __An introduction to Statistical Learning.__ descirbed below : 
 
-- Table 3.3 (page 72): Coefficient estimates of simple regression models: Sales on TV, Sales on Radio, and Sales on Newspaper. The book only shows two tables (those of Radio and Newspaper) but you should also include the table for TV.
+- Table 3.3 (page 72): Coefficient estimates of simple regression models: Sales on TV, Sales on Radio, and Sales on Newspaper. The book only shows two tables (those of Radio and Newspaper) but also include the table for TV.
 - Table 3.4 (page 74): Coefficient estimates of the least squares model.
 - Table 3.5 (page 75): Correlation matrix.
 - Table 3.6 (page 76): $RSE$, $R^2$ and $F$-statistic of the least squares model.
 
-In addition to reproducing results, the report includes some functions calculating summary statistics as well as their unit tests.
 
 
 #Introduction 
@@ -62,7 +61,7 @@ Lastly, by comparing these two methods and anaylzing its statistics, we are goin
 
 #Results
 
-The simple regression coefficients are discribed below in a Table 1-3:
+##1. The simple regression coefficients are discribed below in a Table 1-3:
 
 ```{r echo = FALSE, results='asis'}
 load("../data/regression.Rdata")
@@ -90,34 +89,36 @@ print(sum_table, comment=FALSE, type = "latex")
 
 
 
-- In the Table 1, sales on tv, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_tv)$coefficient[1,1]` with sd of `r summary(sales_tv)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_tv)$coefficient[1,2]` with sd of `r summary(sales_tv)$coefficient[2,2]`
+- In the Table 1, sales on tv, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_tv)$coefficient[1,1]` with sd of `r summary(sales_tv)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_tv)$coefficient[2,1]` with sd of `r summary(sales_tv)$coefficient[2,2]`
 
 
-- In the Table 2, sales on radio, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_radio)$coefficient[1,1]` with sd of `r summary(sales_radio)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_radio)$coefficient[1,2]` with sd of `r summary(sales_radio)$coefficient[2,2]`
+- In the Table 2, sales on radio, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_radio)$coefficient[1,1]` with sd of `r summary(sales_radio)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_radio)$coefficient[2,1]` with sd of `r summary(sales_radio)$coefficient[2,2]`
 
 
-- In the Table 3, sales on radio, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_news)$coefficient[1,1]` with sd of `r summary(sales_news)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_news)$coefficient[1,2]` with sd of `r summary(sales_news)$coefficient[2,2]`
-
+- In the Table 3, sales on newspaper, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_news)$coefficient[1,1]` with sd of `r summary(sales_news)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_news)$coefficient[2,1]` with sd of `r summary(sales_news)$coefficient[2,2]`
 
 \begin{figure}[!h]
   \begin{center}
-    \caption{Scatterplot matrix}
+    \caption{Simple linear regression sales onto tv}
     \centering
       \includegraphics[width=4in]{../images/scatterplot-tv-sales.png}
   \end{center}
 \end{figure}
 
+
+
 \begin{figure}[!h]
   \begin{center}
-    \caption{Scatterplot matrix}
+    \caption{Simple linear regression sales onto radio}
     \centering
       \includegraphics[width=4in]{../images/scatterplot-radio-sales.png}
   \end{center}
 \end{figure}
 
+
 \begin{figure}[!h]
   \begin{center}
-    \caption{Scatterplot matrix}
+    \caption{Simple linear regression sales onto newspaper}
     \centering
       \includegraphics[width=4in]{../images/scatterplot-newspaper-sales.png}
   \end{center}
@@ -125,11 +126,27 @@ print(sum_table, comment=FALSE, type = "latex")
 
 
 
-The multiple regression coefficients are discribed below in a Table 4:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##2. The multiple regression coefficients are discribed below in a Table 4:
 
 ```{r echo = FALSE, results='asis'}
 load("../data/regression.Rdata")
-sum_reg$coefficients
 
 sum_table = xtable(sum_reg$coefficients,  digits = 4, caption="Least squares coefficient estimates of the multiple linear regression of number of units sold on radio, TV, and newspaper advertising budgets.")
 print(sum_table, comment=FALSE, type = "latex")
@@ -146,7 +163,7 @@ Since the p-value is no longer significant, we do not reject the Null hypthosis,
 
 \begin{figure}[!h]
   \begin{center}
-    \caption{Scatterplot matrix}
+    \caption{residual-plot of multiple regression}
     \centering
       \includegraphics[width=4in]{../images/residual-plot.png}
   \end{center}
@@ -154,7 +171,7 @@ Since the p-value is no longer significant, we do not reject the Null hypthosis,
 
 \begin{figure}[!h]
   \begin{center}
-    \caption{Scatterplot matrix}
+    \caption{scale-location-plot of multiple regression}
     \centering
       \includegraphics[width=4in]{../images/scale-location-plot.png}
   \end{center}
@@ -162,7 +179,7 @@ Since the p-value is no longer significant, we do not reject the Null hypthosis,
 
 \begin{figure}[!h]
   \begin{center}
-    \caption{Scatterplot matrix}
+    \caption{normal-qq-plot of multiple regression}
     \centering
       \includegraphics[width=4in]{../images/normal-qq-plot.png}
   \end{center}
@@ -170,7 +187,7 @@ Since the p-value is no longer significant, we do not reject the Null hypthosis,
 
 
 
-Correlation matrix for TV, radio, newspaper, and sales for the Advertising data are discribed below in a Table 5:
+##3. Correlation matrix for TV, radio, newspaper, and sales for the Advertising data are discribed below in a Table 5:
 
 ```{r echo = FALSE, results='asis'}
 load("../data/correlation-matrix.Rdata")
@@ -189,14 +206,14 @@ As mentioned previously, multiple regression shows that there is no relationship
 
 \begin{figure}[!h]
   \begin{center}
-    \caption{Scatterplot matrix}
+    \caption{scatterplot-matrix}
     \centering
       \includegraphics[width=4in]{../images/scatterplot-matrix.png}
   \end{center}
 \end{figure}
 
 
-Quality indices RSE, R square, and F-statistic of multiple regression are given in the Table 6 below:  
+##4. Quality indices RSE, R square, and F-statistic of multiple regression are given in the Table 6 below:  
 
 ```{r echo = FALSE, results='asis'}
 source("../code/functions/regression-functions.R")
@@ -216,7 +233,7 @@ rse_2 = residual_std_error(reg2)
 
 
 ind = data.frame(Quantity=c("R2","RSE","F-stat"), Value = c(r2,fs,rse))
-indice_table = xtable(ind, digits = 4, caption = "Regression Quality Indices")
+indice_table = xtable(ind, digits = 4, caption = "Multiple Regression Quality Indices")
 print(indice_table, comment=FALSE, type="latex")
 ```
 
@@ -225,16 +242,6 @@ print(indice_table, comment=FALSE, type="latex")
 - Residual Standard Error refers the estimated standard error of residuals. It measures the distance between the data point and the regression equation. Here, RSE is `r rse`. When we fit the multiple regression model using just tv and radio advertising on sales, then Residual Standard Error would be `r rse_2` which is lower than `r rse`. This suggests that this model would be more accurate than using all tv, radio, and newspaper variables. There is no need to include newspaper.
 
 - Here F-statistics is obtained by applying multiple linear regression to sales onto radio, tv and newspaper. The value is `r fs`, which is much larger than 1. Therefore, we reject the null hypothesis of all the regression coefficients, $\beta_{0}$, $\beta_{1}$, $\beta_{2}$, $\beta_{3}$, are zero. This suggests that at least one advertising media must be related to sales.    
-
-
-\begin{figure}[!h]
-  \begin{center}
-    \caption{Scatterplot with fitted regression line}
-    \centering
-      \includegraphics[width=4in]{../images/scatterplot-tv-sales.png}
-  \end{center}
-\end{figure}
-
 
 
 #Conclusions
