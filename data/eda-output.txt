@@ -5,9 +5,9 @@ summary statistics of TV
 
 summary statistics of Radio
 
-
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
   0.000   9.975  22.900  23.260  36.520  49.600 
+
 summary statistics of Newspaper
 
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
