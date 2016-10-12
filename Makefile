@@ -1,7 +1,3 @@
-# variables
-IN = input.md
-OUT = report
-
 # phony targets
 .PHONY: data tests eda regression report clean all
 
@@ -13,29 +9,21 @@ data:
 	curl -O "http://www-bcf.usc.edu/~gareth/ISL/Advertising.csv"
 	mv Advertising.csv data
 
-#generate report.pdf
-report/report.pdf: report/report.Rmd data/regression.Rdata images/scatterplot-tv-sales.png
-	cd report; Rscript -e '.libPaths(c("C:/Users/vlfgn/Documents/R/win-library/3.3", "C:/Users/vlfgn/Documents/R/win-library/3.3")); library(rmarkdown); render("report.Rmd")'
+#executes the code in eda-script.R	
+eda: 
+	cd code/scripts; Rscript eda-script.R
 	
-#generate regression.Rdata and producing plots
-data/regression.Rdata: code/regression-script.R data/Advertising.csv
-	cd code; Rscript regression-script.R
+#executes the code in regression-script.R
+regression: 
+	cd code/scripts; Rscript regression-script.R
 	
-#generate explanatory analysis and scatterplots
-data/eda-output.txt: code/eda-script.R data/Advertising.csv
-	cd code; Rscript eda-script.R
-
 #generate report.pdf
 report:
 	cd report; Rscript -e '.libPaths(c("C:/Users/vlfgn/Documents/R/win-library/3.3", "C:/Users/vlfgn/Documents/R/win-library/3.3")); library(rmarkdown); render("report.Rmd")'
-	mv report.pdf report
 	
-#unit test on test-regression.R
+#run the unit tests on test-regression.R
 test:
-	1) cd code && Rscript -e '.libPaths(c("C:/Users/vlfgn/Documents/R/win-library/3.3", "C:/Users/vlfgn/Documents/R/win-library/3.3")); library(testthat); test_dir("tests")'
-	
-	2) cd code $$ Rscript test-that.R
-	
+	cd code; Rscript test-that.R
 	
 #clean output file
 clean:
