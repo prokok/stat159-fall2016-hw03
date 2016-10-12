@@ -57,7 +57,7 @@ $$\\Sales = \beta_{0} + \beta_{1}TV + \beta_{2}Radio + \beta_{3}Newspaper$$
 
 To estimate the coefficients $\beta_{0}$, $\beta_{1}$, $\beta_{2}$, $\beta_{3}$ we fit a multiple regression model via the least squares criterion (Best Linear Prediction method).
 
-Lastly, by comparing these two methods and anaylzing its statistics, we are going to conclude which method is more appropriate to analyze the data set.  
+Lastly, by comparing these two methods and anaylzing its statistics, we are going to conclude which method is more appropriate to analyze the given data.  
 
 
 #Results
@@ -99,6 +99,31 @@ print(sum_table, comment=FALSE, type = "latex")
 - In the Table 3, sales on radio, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_news)$coefficient[1,1]` with sd of `r summary(sales_news)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_news)$coefficient[1,2]` with sd of `r summary(sales_news)$coefficient[2,2]`
 
 
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Scatterplot matrix}
+    \centering
+      \includegraphics[width=4in]{../images/scatterplot-tv-sales.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Scatterplot matrix}
+    \centering
+      \includegraphics[width=4in]{../images/scatterplot-radio-sales.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Scatterplot matrix}
+    \centering
+      \includegraphics[width=4in]{../images/scatterplot-newspaper-sales.png}
+  \end{center}
+\end{figure}
+
+
 
 The multiple regression coefficients are discribed below in a Table 4:
 
@@ -112,43 +137,94 @@ print(sum_table, comment=FALSE, type = "latex")
 ```
 
 
-Table 4 displays the multiple regression coefficient estimates. The interpretation is as follow: spending an additional $1,000 on tv advertising for a given amount of budgets of radio and newspaper, will lead to an increase in sales by approximately 45 units. 
+Table 4 displays the multiple regression coefficient estimates. The interpretation is as follow: spending an additional $1,000 on tv advertising for a fixed amount of budgets of radio and newspaper, will lead to an increase in sales by approximately 45 units. 
 
-Now, compare this coefficient to those displayd in Table 1-3. The estimates of TV and Radio of multiple regression are similar to those of the simple regression; 
+Now, compare this coefficient to those displayd in Table 1-3. The coefficient estimates of TV and Radio of multiple regression are similar to those of the simple regression; however, the estimate coefficient of Newspaper in multiple regression is close to zero and pretty lower than that of single regression. Moreover the corresponding p-value, `r sum_reg$coefficients[4,4]`, is no longer significant. 
 
-Comparing these coefficient estimates to those displayed in Tables 3.1
-and 3.3, we notice that the multiple regression coefficient estimates for
-TV and radio are pretty similar to the simple linear regression coefficient
-estimates. However, while the newspaper regression coefficient estimate in
-Table 3.3 was significantly non-zero, the coefficient estimate for newspaper
-in the multiple regression model is close to zero, and the corresponding
-p-value is no longer significant, with a value around 0.86. This illustrates
-that the simple and multiple regression coefficients can be quite different.
-This difference stems from the fact that in the simple regression case, the
-slope term represents the average effect of a $1,000 increase in newspaper
-advertising, ignoring other predictors such as TV and radio. In contrast, in
-the multiple regression setting, the coefficient for newspaper represents the
-average effect of increasing newspaper spending by $1,000 while holding TV
-and radio fixed.
-TABLE 3.4. For the Advertising data, least squares coefficient estimates of the
-multiple linear regression of number of units sold on radio, TV, and newspaper
-advertising budgets.
+Since the p-value is no longer significant, we do not reject the Null hypthosis, the slope of Newspaper is now considered to be zero. This is caused by the difference between simple and multiple regression method. The previous one only takes one varaible into consideration estimating sales while the latter one takes three variables into consideration to estimate sales. 
 
 
-Quality indices RSE, R square, and F-statistic are given in the table below:  
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Scatterplot matrix}
+    \centering
+      \includegraphics[width=4in]{../images/residual-plot.png}
+  \end{center}
+\end{figure}
 
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Scatterplot matrix}
+    \centering
+      \includegraphics[width=4in]{../images/scale-location-plot.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Scatterplot matrix}
+    \centering
+      \includegraphics[width=4in]{../images/normal-qq-plot.png}
+  \end{center}
+\end{figure}
+
+
+
+Correlation matrix for TV, radio, newspaper, and sales for the Advertising data are discribed below in a Table 5:
 
 ```{r echo = FALSE, results='asis'}
-ind = data.frame(Quantity=c("R2","RSE","F-stat"), Value = c(sum_reg$r.squared,sum_reg$sigma,sum_reg$fstatistic[1]))
+load("../data/correlation-matrix.Rdata")
+
+upper_corr_matrix = format(corr_matrix, digits = 4)
+upper_corr_matrix[lower.tri(upper_corr_matrix, diag=FALSE)] = ""
+upper=(as.data.frame(upper_corr_matrix))
+
+upper_table = xtable(upper, caption = "Correlation matrix for TV, radio, newspaper, and sales for the Advertising data.")
+print(upper_table, comment=FALSE, type="latex")
+```
+
+
+As mentioned previously, multiple regression shows that there is no relationship between sales and newspaper while simple regression does not. In this case, the multiple regression is a better method to explain the relationship for a given data set. Table 4 suggests that there is strong correlation between radio and newspaper, `r as.numeric(as.vector(upper['radio','newspaper']))` and it means that markets where more money is spent on radio advertising tend to spend more on newspaper advertising. In simple linear regression, newspaper advertising might look like contributing to sales increasement but the underlying fact that actually affects sale increasement is radio advertising.
+
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Scatterplot matrix}
+    \centering
+      \includegraphics[width=4in]{../images/scatterplot-matrix.png}
+  \end{center}
+\end{figure}
+
+
+Quality indices RSE, R square, and F-statistic of multiple regression are given in the Table 6 below:  
+
+```{r echo = FALSE, results='asis'}
+source("../code/functions/regression-functions.R")
+load("../data/regression.Rdata")
+r2 = r_squared(reg)
+fs = f_statistic(reg)
+rse = residual_std_error(reg)
+
+tv = reg$model$tv
+radio = reg$model$radio
+news = reg$model$news
+sales =reg$model$sales
+reg2 = lm(sales ~ tv +radio)
+
+r2_2 = r_squared(reg2)
+rse_2 = residual_std_error(reg2)
+
+
+ind = data.frame(Quantity=c("R2","RSE","F-stat"), Value = c(r2,fs,rse))
 indice_table = xtable(ind, digits = 4, caption = "Regression Quality Indices")
 print(indice_table, comment=FALSE, type="latex")
 ```
 
-- R sqaure is the percent of variation that can be explained by the regression equation. It means that about `r sum_reg$r.squared*100` precent of variations in sales can be explained by the regression equation.
-- Residual Standard Error refers the estimated standard error of residuals. It measures the distance between the data point and the regression equation. Here, RSE is `r sum_reg$sigma` on 198 degrees of freedom.
-- In simple linear regression, null hypothesis of F-test is 'slope equals to zero.' Here, F-statistics is `r sum_reg$fstatistic[1]` which is significant to reject the null.
+- R sqaure is the percent of variation that can be explained by the multiple regression equation. Here, it means that about `r r2` precent of variations in sales can be explained by the multiple regression equation. When we fit the multiple regression model using just tv and radio advertising on sales, then R squared would be `r r2_2` which is higher than `r r2`. Therefore, it would be better to exclude the newspaper to fit the multiple regression model to the given data.
 
+- Residual Standard Error refers the estimated standard error of residuals. It measures the distance between the data point and the regression equation. Here, RSE is `r rse`. When we fit the multiple regression model using just tv and radio advertising on sales, then Residual Standard Error would be `r rse_2` which is lower than `r rse`. This suggests that this model would be more accurate than using all tv, radio, and newspaper variables. There is no need to include newspaper.
 
+- Here F-statistics is obtained by applying multiple linear regression to sales onto radio, tv and newspaper. The value is `r fs`, which is much larger than 1. Therefore, we reject the null hypothesis of all the regression coefficients, $\beta_{0}$, $\beta_{1}$, $\beta_{2}$, $\beta_{3}$, are zero. This suggests that at least one advertising media must be related to sales.    
 
 
 \begin{figure}[!h]
@@ -163,9 +239,14 @@ print(indice_table, comment=FALSE, type="latex")
 
 #Conclusions
 
-- According to the Table 2, F-statistics indicates to reject the null hypothesis, $H_0 : \beta_{1} = 0$. Therefore, there is a linear relationship between `TV advertising budgets` and `Sales.` 
-- It is the same result when we test with the correlation coefficient presented in Table1. 
-- In the plot, it seems that there are slightly more variations at both ends. However, the data shows pretty good linear relationship between TV advertising and the Sales. 
-- 1000 standard unit increase in TV advertising, increases 47 standard units in sales
-- Thus, it is safe to conclude that there is a linear relationship between them. 
+##Is at least one of the predictors useful in predicting the response?
+Yes. According to F-statistics, at least one of the predictors should be related to sales.
 
+##Do all predictors help to explain the response, or is only a subset of the predictors useful?
+No. As mentioned previously, R-squared is higher and Residual Standard Error is lower when applying TV and Radio predictors to sales. This suggests that this model would be much accurate in predicting response than using all three media. Also, Table 4 suggests that the regression coefficient of newspaper is not significant. Therefore, based on these observations, it is safe to exclude the newspaper media. So the subset of the predictors, TV and Radio, is useful.
+
+##How well does the model fit the data?
+Residaul Standard Error and the R square are the most common numerical figures of model fit. If R square is close to 1, the model explains that much of varaiation in the response variable. The smaller Residaul Standard Error indicates the better model. So, multiple regression using TV, Radio, and Newspaper on Sales is better model than using simple linear regression on each variables; however, it is not as good as just using TV and Radio as predictor variables on Sales, the response variable. 
+
+##How accurate is the prediction?
+Typically, prediction interval is larger than the confidence interval. Confidence interval is used to get the expected mean given predictor values whereas prediction is using one sample to create regression equation that would predict a value within a particular population. Thus, prediction includes the error in the estimate for true population regression plane and the uncertainty resulting from the distance between individual point from the population regression plane as well.
