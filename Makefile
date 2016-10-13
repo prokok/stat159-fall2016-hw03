@@ -14,12 +14,20 @@ data:
 	mv Advertising.csv data
 
 #executes the code in eda-script.R	
-eda: code/scripts/eda-script.R data/Advertising.csv
-	cd code/scripts; Rscript eda-script.R
-	
+##eda: code/scripts/eda-script.R data/Advertising.csv
+##	cd code/scripts; Rscript eda-script.R
+eda: $(SCRIPTS)/eda-script.R data/Advertising.csv
+	cd $(SCRIPTS); Rscript $(<F)
+
 #executes the code in regression-script.R
-regression: code/scripts/regression-script.R data/Advertising.csv
-	cd code/scripts; Rscript regression-script.R
+#regression: code/scripts/regression-script.R data/Advertising.csv
+#	cd code/scripts; Rscript $(<F)
+
+
+regression: data/regression.RData
+
+data/regression.RData: code/scripts/regression-script.R data/Advertising.csv
+	cd code/scripts; Rscript $(<F)
 	
 #generate report.pdf
 report: report/report.Rmd data/correlation-matrix.RData data/regression.RData
