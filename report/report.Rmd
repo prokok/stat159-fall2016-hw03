@@ -3,6 +3,7 @@ title: 'Multiple Linear Regression Analysis'
 author: "PHILHOON OH"
 date: "October 11, 2016"
 output: pdf_document
+include-header: \usepackage{float}
 ---
 
 ```{r setup, include=FALSE}
@@ -61,7 +62,7 @@ Lastly, by comparing these two methods and anaylzing its statistics, we are goin
 
 #Results
 
-##1. The simple regression coefficients are discribed below in a Table 1-3:
+##1. The simple regression coefficients are discribed below in a Table 1-3 and the simple regression plots will be attached at the end Figrue 1-3 :
 
 ```{r echo = FALSE, results='asis'}
 load("../data/regression.Rdata")
@@ -98,65 +99,8 @@ print(sum_table, comment=FALSE, type = "latex")
 - In the Table 3, sales on newspaper, P-value of intercept is significant to reject the null. The estimate of the intercept is `r summary(sales_news)$coefficient[1,1]` with sd of `r summary(sales_news)$coefficient[1,2]`. P-value of slope is significant to reject the null. The estimate of the slope is `r summary(sales_news)$coefficient[2,1]` with sd of `r summary(sales_news)$coefficient[2,2]`
 
 
-```{r fig.width = 5, fig.height=3, echo=FALSE, fig.align='center', fig.cap = "Scatterplot with fitted regression line"}
 
-library(png)
-library(grid)
-img = readPNG("../images/scatterplot-tv-sales.png")
-grid.raster(img)
-```
-
-
-
-
-
-\begin{figure}[!h]
-  \begin{center}
-    \caption{Simple linear regression sales onto tv}
-    \centering
-      \includegraphics[width=4in]{../images/scatterplot-tv-sales.png}
-  \end{center}
-\end{figure}
-
-
-
-\begin{figure}[!h]
-  \begin{center}
-    \caption{Simple linear regression sales onto radio}
-    \centering
-      \includegraphics[width=4in]{../images/scatterplot-radio-sales.png}
-  \end{center}
-\end{figure}
-
-
-\begin{figure}[!h]
-  \begin{center}
-    \caption{Simple linear regression sales onto newspaper}
-    \centering
-      \includegraphics[width=4in]{../images/scatterplot-newspaper-sales.png}
-  \end{center}
-\end{figure}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##2. The multiple regression coefficients are discribed below in a Table 4:
+##2. The multiple regression coefficients are discribed below in a Table 4 and the multiple regression plots (residual-plot, scale-location-plot, normal-qq-plot) will be attached at the end Figrue 4-6 :
 
 ```{r echo = FALSE, results='asis'}
 load("../data/regression.Rdata")
@@ -174,33 +118,8 @@ Now, compare this coefficient to those displayd in Table 1-3. The coefficient es
 Since the p-value is no longer significant, we do not reject the Null hypthosis, the slope of Newspaper is now considered to be zero. This is caused by the difference between simple and multiple regression method. The previous one only takes one varaible into consideration estimating sales while the latter one takes three variables into consideration to estimate sales. 
 
 
-\begin{figure}[!h]
-  \begin{center}
-    \caption{residual-plot of multiple regression}
-    \centering
-      \includegraphics[width=4in]{../images/residual-plot.png}
-  \end{center}
-\end{figure}
 
-\begin{figure}[!h]
-  \begin{center}
-    \caption{scale-location-plot of multiple regression}
-    \centering
-      \includegraphics[width=4in]{../images/scale-location-plot.png}
-  \end{center}
-\end{figure}
-
-\begin{figure}[!h]
-  \begin{center}
-    \caption{normal-qq-plot of multiple regression}
-    \centering
-      \includegraphics[width=4in]{../images/normal-qq-plot.png}
-  \end{center}
-\end{figure}
-
-
-
-##3. Correlation matrix for TV, radio, newspaper, and sales for the Advertising data are discribed below in a Table 5:
+##3. Correlation matrix for TV, radio, newspaper, and sales for the Advertising data are discribed below in a Table 5 and scatterplot-matrix is attached at the end Figure 7:
 
 ```{r echo = FALSE, results='asis'}
 load("../data/correlation-matrix.Rdata")
@@ -216,14 +135,6 @@ print(upper_table, comment=FALSE, type="latex")
 
 As mentioned previously, multiple regression shows that there is no relationship between sales and newspaper while simple regression does not. In this case, the multiple regression is a better method to explain the relationship for a given data set. Table 4 suggests that there is strong correlation between radio and newspaper, `r as.numeric(as.vector(upper['radio','newspaper']))` and it means that markets where more money is spent on radio advertising tend to spend more on newspaper advertising. In simple linear regression, newspaper advertising might look like contributing to sales increasement but the underlying fact that actually affects sale increasement is radio advertising.
 
-
-\begin{figure}[!h]
-  \begin{center}
-    \caption{scatterplot-matrix}
-    \centering
-      \includegraphics[width=4in]{../images/scatterplot-matrix.png}
-  \end{center}
-\end{figure}
 
 
 ##4. Quality indices RSE, R square, and F-statistic of multiple regression are given in the Table 6 below:  
@@ -270,3 +181,65 @@ Residaul Standard Error and the R square are the most common numerical figures o
 
 ##How accurate is the prediction?
 Typically, prediction interval is larger than the confidence interval. Confidence interval is used to get the expected mean given predictor values whereas prediction is using one sample to create regression equation that would predict a value within a particular population. Thus, prediction includes the error in the estimate for true population regression plane and the uncertainty resulting from the distance between individual point from the population regression plane as well.
+
+
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Simple linear regression sales onto tv}
+    \centering
+      \includegraphics[width=4in]{../images/scatterplot-tv-sales.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Simple linear regression sales onto radio}
+    \centering
+      \includegraphics[width=4in]{../images/scatterplot-radio-sales.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{Simple linear regression sales onto newspaper}
+    \centering
+      \includegraphics[width=4in]{../images/scatterplot-newspaper-sales.png}
+  \end{center}
+\end{figure}
+
+
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{residual-plot of multiple regression}
+    \centering
+      \includegraphics[width=4in]{../images/residual-plot.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{scale-location-plot of multiple regression}
+    \centering
+      \includegraphics[width=4in]{../images/scale-location-plot.png}
+  \end{center}
+\end{figure}
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{normal-qq-plot of multiple regression}
+    \centering
+      \includegraphics[width=4in]{../images/normal-qq-plot.png}
+  \end{center}
+\end{figure}
+
+
+
+\begin{figure}[!h]
+  \begin{center}
+    \caption{scatterplot-matrix}
+    \centering
+      \includegraphics[width=4in]{../images/scatterplot-matrix.png}
+  \end{center}
+\end{figure}
