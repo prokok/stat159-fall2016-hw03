@@ -1,6 +1,6 @@
 #Variables
-IN = Advertising.csv
-
+IN = data/Advertising.csv 
+SCRIPTS = code/scripts/
 
 # phony targets
 .PHONY: data tests eda regression report session clean all
