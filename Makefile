@@ -1,5 +1,5 @@
 #Variables
-IN = data/Advertising.csv 
+AD = data/Advertising.csv 
 SCRIPTS = code/scripts/
 
 # phony targets
@@ -14,20 +14,12 @@ data:
 	mv Advertising.csv data
 
 #executes the code in eda-script.R	
-##eda: code/scripts/eda-script.R data/Advertising.csv
-##	cd code/scripts; Rscript eda-script.R
-eda: $(SCRIPTS)/eda-script.R data/Advertising.csv
+eda: $(SCRIPTS)/eda-script.R $(AD)
 	cd $(SCRIPTS); Rscript $(<F)
 
 #executes the code in regression-script.R
-#regression: code/scripts/regression-script.R data/Advertising.csv
-#	cd code/scripts; Rscript $(<F)
-
-
-regression: data/regression.RData
-
-data/regression.RData: code/scripts/regression-script.R data/Advertising.csv
-	cd code/scripts; Rscript $(<F)
+regression: $(SCRIPTS)/regression-script.R $(AD)
+	cd $(SCRIPTS); Rscript $(<F)
 	
 #generate report.pdf
 report: report/report.Rmd data/correlation-matrix.RData data/regression.RData
@@ -35,11 +27,11 @@ report: report/report.Rmd data/correlation-matrix.RData data/regression.RData
 	
 #run the unit tests on test-regression.R
 test: code/test-that.R code/tests/test-regression.R
-	cd code; Rscript test-that.R
+	cd code; Rscript $(<F)
 	
 #executes the code in session-info-script.R
-session: code/scripts/session-info-script.R
-	cd code/scripts; Rscript session-info-script.R
+session: $(SCRIPTS)/session-info-script.R
+	cd $(SCRIPTS); Rscript $(<F)
 	
 #clean output file
 clean:
