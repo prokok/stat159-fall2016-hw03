@@ -13,21 +13,22 @@ In this repository, there are 4 directories: data, code, images, report
 
 3. 'images' contains 11 png files which are produced by either eda-script.R or regression-script.R
 
-- Plots produced by eda-script.R
-```
-	#generating plots from eda-cript.R
-	make eda
-```
+	- Plots produced by eda-script.R
+		histogram-sales.png, histogram-tv.png, histogram-radio.png, histogram-newspaper.png, scatterplot-matrix.png
 
-histogram-sales.png, histogram-tv.png, histogram-radio.png, histogram-newspaper.png, scatterplot-matrix.png
 
-- Plots produced by regression-script.R
-```
-	#generating plots from regression-script.R
-	make regression
-```
+	```
+		#generating plots from eda-cript.R
+		make eda
+	```
 
-scatterplot-tv-sales.png, scatterplot-radio-sales.png, scatterplot-newspaper-sales.png, residual-plot.png, scale-location-plot.png, normal-qq-plot.png   
+	- Plots produced by regression-script.R
+		scatterplot-tv-sales.png, scatterplot-radio-sales.png, scatterplot-newspaper-sales.png, residual-plot.png, scale-location-plot.png, normal-qq-plot.png   
+	```
+		#generating plots from regression-script.R
+		make regression
+	```  
+	
 
 4. 'report' contains report.Rmd generating report.pdf.
 ```
