@@ -156,7 +156,7 @@ r2_2 = r_squared(reg2)
 rse_2 = residual_std_error(reg2)
 
 
-ind = data.frame(Quantity=c("R2","RSE","F-stat"), Value = c(r2,fs,rse))
+ind = data.frame(Quantity=c("R2","RSE","F-stat"), Value = c(r2,rse,fs))
 indice_table = xtable(ind, digits = 4, caption = "Multiple Regression Quality Indices")
 print(indice_table, comment=FALSE, type="latex")
 ```
