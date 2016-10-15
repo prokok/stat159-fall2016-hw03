@@ -26,7 +26,7 @@ report: report/report.Rmd data/correlation-matrix.RData data/regression.RData
 	cd report; Rscript -e '.libPaths(c("C:/Users/vlfgn/Documents/R/win-library/3.3", "C:/Users/vlfgn/Documents/R/win-library/3.3")); library(rmarkdown); render("report.Rmd")'
 	
 #run the unit tests on test-regression.R
-test: code/test-that.R code/tests/test-regression.R
+tests: code/test-that.R code/tests/test-regression.R
 	cd code; Rscript $(<F)
 	
 #executes the code in session-info-script.R
