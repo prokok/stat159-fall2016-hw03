@@ -9,7 +9,7 @@ In this repository, there are 4 directories: data, code, images, report
 
 1. 'data' contains Advertising.csv, eda-output.txt, regression.RData, correlation-matrix.RData with its own README.md explaining 'data' structure in more details.
 
-2. 'code' contains 3-sub directories: functions, scripts, tests with its own README.md explaining 'code' structure in more details.
+2. 'code' contains 3-sub directories: functions, scripts, tests with its own README.md explaining 'code' structure in more details and one test-that.R script.
 
 3. 'images' contains 11 png files which are produced by either eda-script.R or regression-script.R
 
